@@ -1,8 +1,8 @@
-const index = require("./index");
+const index = require('../index');
 
 class Employee {
-    constructor(name, id, email) {
-        this.name = name,
+    constructor(employeeName, id, email) {
+        this.EmployeeName = employeeName,
         this.id = id;
         this.email = email;
     }
