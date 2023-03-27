@@ -1,0 +1,25 @@
+.root {
+    margin: 2px;
+}.banner {
+    display: block;
+    background-color: red;
+    text-align: center;
+    justify-content: center;
+    color: white;
+}
+
+.card {
+    height: 250px;
+    width: 200px;
+    color: blue;
+    border-radius: 3px 3px / 0px 0px;
+    background-color: rgb(233, 230, 230);
+    box-shadow: 3px 3px 3px rgb(63, 63, 63);
+}
+
+.card-header {
+    height: 75px;
+    background-color: blue;
+    color: white;
+    border-radius: 3px 3px / 3px 3px;
+}

@@ -54,8 +54,12 @@ const engineerQuestions = [
         message: "Please enter the Engineer's GitHub username:",
         name: "engineerGitHub",
     },
-    starterQuestions[4]
-];
+    {
+        type: "list",
+        message: "What would you like to do next?",
+        name: "options",
+        choices: ["Add an Engineer", "Add an Intern", "Finish Building Team"],
+    }];
 
 const internQuestions = [
     {
@@ -78,52 +82,34 @@ const internQuestions = [
         message: "Please enter the Intern's school name:",
         name: "internSchool",
     },
-    starterQuestions[4]
-];
+    {
+        type: "list",
+        message: "What would you like to do next?",
+        name: "options",
+        choices: ["Add an Engineer", "Add an Intern", "Finish Building Team"],
+    }];
 
 inquirer
     .prompt(starterQuestions)
-    .then((response) => {
-        const manager = new Manager (response.managerName, response.managerId, response.managerEmailAddress, response.managerOfficeNumber);
-                fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err))
-        if(response.options === "Add an Engineer") {
-            inquirer
-            .prompt(engineerQuestions)
-            .then((response) => {
-                const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmailAddress, response.engineerGitHub);
-                fs.appendFile('log.txt', `Engineer1 ${JSON.stringify(engineer)}\n`, (err) => (err))
-                if(response.options === "Add an Engineer") {
-                    inquirer
-                    .prompt(engineerQuestions)
-                } else if (response.options === "Add an Intern") {
-                    inquirer
-                    .prompt(internQuestions) 
-                } else {
-                    console.log("Let's look at your team")
-                }
-            })
-        } else if (response.options === "Add an Intern") {
-            inquirer
-            .prompt(internQuestions)
-                .then((response) => {
-                    const intern = new Intern(response.internName, response.internId, response.internEmailAddress, response.internSchool);
-                    fs.appendFile('log.txt', `Intern1 ${JSON.stringify(intern)}\n`, (err) => (err))
-                if(response.options === "Add an Engineer") {
-                    inquirer
-                    .prompt(engineerQuestions)
-                } else if (response.options === "Add an Intern") {
-                    inquirer
-                    .prompt(internQuestions) 
-                } else {
-                    console.log("Let's look at your team")
-                }
-            })
-        } else {
-            console.log("Let's look at your team")
-        }
-        // fs.writeFile("./dist/index.html",`<h1>${response.options}</h1>`, (err) =>
-        // err ? console.error(err) : console.log("success!"))
-    });
+    .then((starterQuestionsResponse) => {
+        const manager = new Manager (starterQuestionsResponse.managerName, starterQuestionsResponse.managerId, starterQuestionsResponse.managerEmailAddress, starterQuestionsResponse.managerOfficeNumber);
+                fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
+    if(starterQuestionsResponse.options === "Add an Engineer") {
+        return inquirer.prompt(engineerQuestions).then((engineerResponse) => {
+            const engineer = new Engineer (engineerResponse.engineerName, engineerResponse.engineerId, engineerResponse.engineerEmailAddress, engineerResponse.engineerGitHub);
+            fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
+        })
+  //  } else if(starterQuestionsResponse.options === "Add an Intern") {
+    //     return inquirer.prompt(internQuestions).then((internResponse) => {
+    //         const intern = new Intern (internResponse.internName, internResponse.internId, internResponse.internEmailAddress, internResponse.internSchool);
+    //         fs.appendFile('log.txt', `Intern ${JSON.stringify(intern)}\n`, (err) => (err));
+        // })
+
+// inquirer.prompt(starterQuestions[4])        
+    }})
+    
+
+
 
 
 // inquirer
