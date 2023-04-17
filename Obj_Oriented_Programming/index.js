@@ -5,27 +5,29 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-const starterQuestions = [
+const managerQuestions = [
     {
         type: "input",
-        message: "Please enter your name:",
+        message: "Please enter the Manager's name:",
         name: "managerName",
     },
     {
         type: "input",
-        message: "Please enter your employee ID:",
+        message: "Please enter the Manager's employee ID:",
         name: "managerId",
     },
     {
         type: "input",
-        message: "Please enter your email address:",
+        message: "Please enter the Manager's email address:",
         name: "managerEmailAddress",
     },
     {
         type: "input",
-        message: "Please enter your office number:",
+        message: "Please enter the Manager's office number:",
         name: "managerOfficeNumber",
-    },
+    }];
+
+const doNextQuestion = [
     {
         type: "list",
         message: "What would you like to do next?",
@@ -53,12 +55,6 @@ const engineerQuestions = [
         type: "input",
         message: "Please enter the Engineer's GitHub username:",
         name: "engineerGitHub",
-    },
-    {
-        type: "list",
-        message: "What would you like to do next?",
-        name: "options",
-        choices: ["Add an Engineer", "Add an Intern", "Finish Building Team"],
     }];
 
 const internQuestions = [
@@ -81,19 +77,52 @@ const internQuestions = [
         type: "input",
         message: "Please enter the Intern's school name:",
         name: "internSchool",
-    },
-    {
-        type: "list",
-        message: "What would you like to do next?",
-        name: "options",
-        choices: ["Add an Engineer", "Add an Intern", "Finish Building Team"],
     }];
 
-inquirer
-    .prompt(starterQuestions)
-    .then((starterQuestionsResponse) => {
-        const manager = new Manager (starterQuestionsResponse.managerName, starterQuestionsResponse.managerId, starterQuestionsResponse.managerEmailAddress, starterQuestionsResponse.managerOfficeNumber);
-                fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
+function askManagerQuestions() {
+    inquirer.prompt(managerQuestions)
+    .then((managerQuestions) => {
+            const manager = new Manager (managerQuestionsResponse.managerName, managerQuestionsResponse.managerId, managerQuestionsResponse.managerEmailAddress, managerQuestionsResponse.managerOfficeNumber);
+                    fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
+    });
+};
+
+function askEngineerQuestions() {
+    inquirer.prompt(engineerQuestions)
+    .then((engineerResponse) => {
+        const engineer = new Engineer (engineerQuestionsResponse.engineerName, engineerQuestionsResponse.engineerId, engineerQuestionsResponse.engineerQuestionsEmailAddress, engineerQuestionsResponse.engineerGitHub);
+        fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
+});
+
+function askInternQuestions() {
+    inquirer.prompt(internQuestions)
+    .then((internResponse) => {
+        const intern = new Intern (internQuestionsResponse.engineerName, engineerResponse.engineerId, engineerResponse.engineerEmailAddress, engineerResponse.engineerGitHub);
+        fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
+});
+
+function askNextQuestion() {
+    inquirer.prompt(doNextQuestion)
+    .then((response) => {
+        const result = response.options;
+        switch(result) {
+            case "Add an Engineer":
+                askEngineerQuestions();
+            break;
+
+            case "Add an Intern":
+                askInternQuestions();
+            break;
+
+            case "Finish Building Team":
+                console.log("Let's see your team!");
+}});
+};
+// inquirer
+//     .prompt(starterQuestions)
+//     .then((managerQuestions) => {
+//         const manager = new Manager (starterQuestionsResponse.managerName, starterQuestionsResponse.managerId, starterQuestionsResponse.managerEmailAddress, starterQuestionsResponse.managerOfficeNumber);
+//                 fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
     if(starterQuestionsResponse.options === "Add an Engineer") {
         return inquirer.prompt(engineerQuestions).then((engineerResponse) => {
             const engineer = new Engineer (engineerResponse.engineerName, engineerResponse.engineerId, engineerResponse.engineerEmailAddress, engineerResponse.engineerGitHub);

@@ -1,1 +1,2 @@
-Manager {"EmployeeName":"adsfdsf","id":"sdfsdf","email":"sdfdsf","officeNumber":"sdfsdf"}
+Manager {"EmployeeName":"Christopher Uffman","id":"3522","email":"uffmanch@gmail.com","officeNumber":"27"}
+Engineer {"EmployeeName":"Tommy Thompson","id":"2","email":"ttson@gmail.com","github":"tommyboy"}
