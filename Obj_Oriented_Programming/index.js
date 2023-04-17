@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const Employee = require('./lib/Employee');
+// const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -79,83 +79,69 @@ const internQuestions = [
         name: "internSchool",
     }];
 
-function askManagerQuestions() {
-    inquirer.prompt(managerQuestions)
-    .then((managerQuestions) => {
-            const manager = new Manager (managerQuestionsResponse.managerName, managerQuestionsResponse.managerId, managerQuestionsResponse.managerEmailAddress, managerQuestionsResponse.managerOfficeNumber);
-                    fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
-    });
-};
-
-function askEngineerQuestions() {
-    inquirer.prompt(engineerQuestions)
-    .then((engineerResponse) => {
-        const engineer = new Engineer (engineerQuestionsResponse.engineerName, engineerQuestionsResponse.engineerId, engineerQuestionsResponse.engineerQuestionsEmailAddress, engineerQuestionsResponse.engineerGitHub);
-        fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
-});
-
-function askInternQuestions() {
-    inquirer.prompt(internQuestions)
-    .then((internResponse) => {
-        const intern = new Intern (internQuestionsResponse.engineerName, engineerResponse.engineerId, engineerResponse.engineerEmailAddress, engineerResponse.engineerGitHub);
-        fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
-});
-
-function askNextQuestion() {
+function askNextQuestion(){
     inquirer.prompt(doNextQuestion)
     .then((response) => {
         const result = response.options;
         switch(result) {
             case "Add an Engineer":
-                askEngineerQuestions();
-            break;
+                inquirer.prompt(engineerQuestions)
+                .then((response) => {
+                    const engineer = new Engineer (response.engineerName, response.engineerId, response.engineerEmailAddress, response.engineerGitHub);
+                    fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
+                    askNextQuestion();
+                });
+                break;
 
-            case "Add an Intern":
-                askInternQuestions();
-            break;
+                case "Add an Intern":
+                    inquirer.prompt(internQuestions)
+                    .then((response) => {
+                    const intern = new Intern (response.internName, response.internId, response.internEmailAddress, response.internGitHub);
+                    fs.appendFile('log.txt', `Intern ${JSON.stringify(intern)}\n`, (err) => (err));
+                    askNextQuestion();
+                });
+                break;
+
+            case "Finish Building Team":
+                console.log("Let's see your team!");
+            }});
+};
+
+function askQuestions() {
+    inquirer.prompt(managerQuestions)
+    .then((response) => {
+            const manager = new Manager (response.managerName, response.managerId, response.managerEmailAddress, response.managerOfficeNumber);
+            fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
+
+
+    inquirer.prompt(doNextQuestion)
+    .then((response) => {
+        const result = response.options;
+        switch(result) {
+            case "Add an Engineer":
+                inquirer.prompt(engineerQuestions)
+                .then((response) => {
+                    const engineer = new Engineer (response.engineerName, response.engineerId, response.engineerEmailAddress, response.engineerGitHub);
+                    fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
+                    askNextQuestion();
+                });
+                break;
+
+                case "Add an Intern":
+                    inquirer.prompt(internQuestions)
+                    .then((response) => {
+                    const intern = new Intern (response.internName, response.internId, response.internEmailAddress, response.internGitHub);
+                    fs.appendFile('log.txt', `Intern ${JSON.stringify(intern)}\n`, (err) => (err));
+                    askNextQuestion();
+                });
+                break;
 
             case "Finish Building Team":
                 console.log("Let's see your team!");
 }});
+    })
 };
-// inquirer
-//     .prompt(starterQuestions)
-//     .then((managerQuestions) => {
-//         const manager = new Manager (starterQuestionsResponse.managerName, starterQuestionsResponse.managerId, starterQuestionsResponse.managerEmailAddress, starterQuestionsResponse.managerOfficeNumber);
-//                 fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
-    if(starterQuestionsResponse.options === "Add an Engineer") {
-        return inquirer.prompt(engineerQuestions).then((engineerResponse) => {
-            const engineer = new Engineer (engineerResponse.engineerName, engineerResponse.engineerId, engineerResponse.engineerEmailAddress, engineerResponse.engineerGitHub);
-            fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
-        })
-  //  } else if(starterQuestionsResponse.options === "Add an Intern") {
-    //     return inquirer.prompt(internQuestions).then((internResponse) => {
-    //         const intern = new Intern (internResponse.internName, internResponse.internId, internResponse.internEmailAddress, internResponse.internSchool);
-    //         fs.appendFile('log.txt', `Intern ${JSON.stringify(intern)}\n`, (err) => (err));
-        // })
 
-// inquirer.prompt(starterQuestions[4])        
-    }})
-    
+askQuestions();
 
 
-
-
-// inquirer
-//     .prompt(starterQuestions[4])
-//    .then((response) => {
-//        if(response.options === "Add an Engineer") {
-//            inquirer
-//            .prompt(engineerQuestions)
-//        } else if (response.options === "Add an Intern") {
-//            inquirer
-//            .prompt(internQuestions)
-//        } else {
-//            console.log("Let's look at your team")
-//        }
-//        // fs.writeFile("./dist/index.html",`<h1>${response.options}</h1>`, (err) =>
-//        // err ? console.error(err) : console.log("success!"))
-//    });
-
-
-module.exports = inquirer;
