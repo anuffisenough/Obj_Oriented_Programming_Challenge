@@ -104,6 +104,7 @@ function askNextQuestion(){
 
             case "Finish Building Team":
                 console.log("Let's see your team!");
+                fs.writeFile('./dist/teamroster.html', "This worked", (err) => (err));
             }});
 };
 
