@@ -89,6 +89,7 @@ function askNextQuestion(){
                 .then((response) => {
                     const engineer = new Engineer (response.engineerName, response.engineerId, response.engineerEmailAddress, response.engineerGitHub);
                     fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
+                    console.log(engineer.getRole());
                     askNextQuestion();
                 });
                 break;
@@ -98,6 +99,7 @@ function askNextQuestion(){
                     .then((response) => {
                     const intern = new Intern (response.internName, response.internId, response.internEmailAddress, response.internGitHub);
                     fs.appendFile('log.txt', `Intern ${JSON.stringify(intern)}\n`, (err) => (err));
+                    console.log(intern.getRole());
                     askNextQuestion();
                 });
                 break;
@@ -112,8 +114,18 @@ function askQuestions() {
     inquirer.prompt(managerQuestions)
     .then((response) => {
             const manager = new Manager (response.managerName, response.managerId, response.managerEmailAddress, response.managerOfficeNumber);
-            fs.writeFile('log.txt', `Manager ${JSON.stringify(manager)}\n`, (err) => (err));
+            fs.writeFile('./dist/teamroster.html', `<!DOCTYPE html>
+            <html lang="en">
+              
+            <head>
+              <meta charset="UTF-8" />
+              <title>Team Roster</title>
 
+              <link rel="stylesheet" href="./dist/stylesheet.css" />
+            
+            </head>
+            <h1 class="banner">My Team<h1/>
+            <body>Manager ${JSON.stringify(manager)}\n`, (err) => (err));
 
     inquirer.prompt(doNextQuestion)
     .then((response) => {
@@ -124,6 +136,7 @@ function askQuestions() {
                 .then((response) => {
                     const engineer = new Engineer (response.engineerName, response.engineerId, response.engineerEmailAddress, response.engineerGitHub);
                     fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
+                    console.log(engineer.getRole());
                     askNextQuestion();
                 });
                 break;
@@ -133,12 +146,14 @@ function askQuestions() {
                     .then((response) => {
                     const intern = new Intern (response.internName, response.internId, response.internEmailAddress, response.internGitHub);
                     fs.appendFile('log.txt', `Intern ${JSON.stringify(intern)}\n`, (err) => (err));
+                    console.log(intern.getRole());
                     askNextQuestion();
                 });
                 break;
 
             case "Finish Building Team":
                 console.log("Let's see your team!");
+                fs.appendFile('./dist/teamroster.html', `</>`, (err) => (err));
 }});
     })
 };
