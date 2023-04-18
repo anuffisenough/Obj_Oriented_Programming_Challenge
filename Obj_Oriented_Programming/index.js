@@ -82,25 +82,39 @@ const internQuestions = [
 function askNextQuestion(){
     inquirer.prompt(doNextQuestion)
     .then((response) => {
-        const result = response.options;
-        switch(result) {
-            case "Add an Engineer":
-                inquirer.prompt(engineerQuestions)
-                .then((response) => {
-                    const engineer = new Engineer (response.engineerName, response.engineerId, response.engineerEmailAddress, response.engineerGitHub);
-                    fs.appendFile('log.txt', `Engineer ${JSON.stringify(engineer)}\n`, (err) => (err));
-                    askNextQuestion();
-                });
-                break;
+                const result = response.options;
+                switch(result) {
+                    case "Add an Engineer":
+                        inquirer.prompt(engineerQuestions)
+                        .then((response) => {
+                            const engineer = new Engineer (response.engineerName, response.engineerId, response.engineerEmailAddress, response.engineerGitHub);
+                            fs.appendFile('./dist/teamroster.html', `<div class="card">
+                            <div class="card-header">${engineer.getRole()}\n${engineer.EmployeeName}</div>
+                              <ul>
+                                <li>${engineer.id}</li>
+                                <li>${engineer.email}</li>
+                                <li>${engineer.getGitHub()}</li>
+                              </ul>
+                            </div>`, (err) => (err));
+                            askNextQuestion();
+                        });
+                        break;
 
-                case "Add an Intern":
-                    inquirer.prompt(internQuestions)
-                    .then((response) => {
-                    const intern = new Intern (response.internName, response.internId, response.internEmailAddress, response.internGitHub);
-                    fs.appendFile('log.txt', `Intern ${JSON.stringify(intern)}\n`, (err) => (err));
-                    askNextQuestion();
-                });
-                break;
+                        case "Add an Intern":
+                            inquirer.prompt(internQuestions)
+                            .then((response) => {
+                            const intern = new Intern (response.internName, response.internId, response.internEmailAddress, response.internGitHub);
+                            fs.appendFile('./dist/teamroster.html', `<div class="card">
+                            <div class="card-header">${intern.getRole()}\n${intern.EmployeeName}</div>
+                              <ul>
+                                <li>${intern.id}</li>
+                                <li>${intern.email}</li>
+                                <li>${intern.getSchool()}</li>
+                              </ul>
+                            </div>`, (err) => (err));
+                            askNextQuestion();
+                        });
+                        break;
 
             case "Finish Building Team":
                 console.log("Let's see your team!");
@@ -112,25 +126,7 @@ function askQuestions() {
     inquirer.prompt(managerQuestions)
     .then((response) => {
             const manager = new Manager (response.managerName, response.managerId, response.managerEmailAddress, response.managerOfficeNumber);
-            fs.writeFile('./dist/teamroster.html', `<!DOCTYPE html>
-            <html lang="en">
-                        
-            <head>
-              <meta charset="UTF-8" />
-              <title>Team Roster</title>
-              <link rel="stylesheet" href="stylesheet.css" />
-            </head>
-            <h1>My Team</h1>
-            <div class="flex-container">
-              <div class="card">
-              <div class="card-header">${manager.getRole()}\n${manager.EmployeeName}</div>
-                <ul>
-                  <li>${manager.id}</li>
-                  <li>${manager.email}</li>
-                  <li>${manager.officeNumber}</li>
-                </ul>
-              </div>
-            </div>`, (err) => (err));
+            fs.writeFile('./dist/teamroster.html', `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8" />\n  <title>Team Roster</title>\n  <link rel="stylesheet" href="stylesheet.css" />\n</head>\n<h1>My Team</h1>\n<div class="flex-container">\n  <div class="card">\n  <div class="card-header">${manager.getRole()}\n${manager.EmployeeName}</div>\n  <ul>\n  <li>${manager.id}</li>\n  <li>${manager.email}</li>\n  <li>${manager.officeNumber}</li>\n</ul>\n</div>\n`, (err) => (err));
 
     inquirer.prompt(doNextQuestion)
     .then((response) => {
@@ -147,8 +143,7 @@ function askQuestions() {
                         <li>${engineer.email}</li>
                         <li>${engineer.getGitHub()}</li>
                       </ul>
-                    </div>
-                  </div>`, (err) => (err));
+                    </div>`, (err) => (err));
                     askNextQuestion();
                 });
                 break;
@@ -164,8 +159,7 @@ function askQuestions() {
                         <li>${intern.email}</li>
                         <li>${intern.getSchool()}</li>
                       </ul>
-                    </div>
-                  </div>`, (err) => (err));
+                    </div>`, (err) => (err));
                     askNextQuestion();
                 });
                 break;
