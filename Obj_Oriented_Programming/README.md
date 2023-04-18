@@ -27,7 +27,7 @@
 This application is not deployed live.
 
 ### Walkthrough
-[Application Walkthrough](https://drive.google.com/file/d/1dcTdp4c0y6yHS2S4l34GqppYSIGIf3DK/view)
+[Application Walkthrough](https://drive.google.com/file/d/1jpROUX06LSC8qcOlZZak7XM3beGNROAl/view)
 
 ### Credits
 
